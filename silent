@@ -19,27 +19,6 @@ local DaHoodSettings = {
 }
 getgenv().DaHoodSettings = DaHoodSettings
 
-local GunSettings = {
-    ["Double-Barrel SG"] = { --// dh
-        ["FOV"] = 10
-    },
-    ["Double Barrel SG"] = { --// dhm
-        ["FOV"] = 0
-    },
-    ["DoubleBarrel"] = { --// hood customs
-    ["FOV"] = 0
-    },
-    ["Revolver"] = {
-        ["FOV"] = 4
-    },
-    ["SMG"] = {
-        ["FOV"] = 5
-    },
-    ["Shotgun"] = {
-        ["FOV"] = 10
-    }
-}
-
 function Aiming.Check()
     if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
         return false
