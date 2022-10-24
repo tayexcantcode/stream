@@ -89,3 +89,104 @@ RunService:BindToRenderStep("AimLock", 0, function()
         CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
     end
 end)
+
+local CC = game.Workspace.CurrentCamera
+local Mouse = game.Players.LocalPlayer:GetMouse()
+local Plr
+
+
+Mouse.KeyDown:Connect(function(Key)
+    local Keybind = getgenv().Settings.Key:lower()
+    if (Key == Keybind) then
+        if getgenv().Settings.Enabled == true then
+            IsTargetting = not IsTargetting
+            if IsTargetting then
+                Plr = GetClosest()
+            else
+                if Plr ~= nil then
+                    Plr = nil
+                end
+            end
+        end
+    end
+end)
+
+function GetClosest()
+    local closestPlayer
+    local shortestDistance = math.huge
+    for i, v in pairs(game.Players:GetPlayers()) do
+        pcall(function()
+
+            if v ~= game.Players.LocalPlayer and v.Character and
+                v.Character:FindFirstChild("Humanoid") then
+                local pos = CC:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+                local magnitude =
+                (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).magnitude
+                if (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).magnitude < shortestDistance then
+                    closestPlayer = v
+                    shortestDistance = magnitude
+                end
+            end
+        end)
+    end
+    return closestPlayer
+end
+
+local function IsOnScreen(Object)
+    local IsOnScreen = game.Workspace.CurrentCamera:WorldToScreenPoint(Object.Position)
+    return IsOnScreen
+end
+
+local function Filter(Object)
+    if string.find(Object.Name, "Gun") then
+        return
+    end
+    if Object:IsA("Part") or Object:IsA("MeshPart") then
+        return true
+    end
+end
+
+local function WTSPos(Position)
+    local ObjectVector = game.Workspace.CurrentCamera:WorldToScreenPoint(Position)
+    return Vector2.new(ObjectVector.X, ObjectVector.Y)
+end
+
+local function WTS(Object)
+    local ObjectVector = game.Workspace.CurrentCamera:WorldToScreenPoint(Object.Position)
+    return Vector2.new(ObjectVector.X, ObjectVector.Y)
+end
+
+function GetNearestPartToCursorOnCharacter(character)
+    local ClosestDistance = math.huge
+    local BodyPart = nil
+
+    if (character and character:GetChildren()) then
+        for k,  x in next, character:GetChildren() do
+            if Filter(x) and IsOnScreen(x) then
+                local Distance = (WTS(x) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
+    
+                if Distance < ClosestDistance then
+                    ClosestDistance = Distance
+                    BodyPart = x
+                end
+            end
+        end
+    end
+
+    return BodyPart
+end
+
+game.RunService.Heartbeat:Connect(function()
+    if getgenv().Settings.Enabled == true then
+        local Main = CFrame.new(CC.CFrame.p,Plr.Character[getgenv().Settings.Part].Position + Plr.Character[getgenv().Settings.Part].Velocity / getgenv().Settings.Pred)
+        CC.CFrame = CC.CFrame:Lerp(Main, getgenv().Settings.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut,Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if getgenv().Settings.Enabled and Plr ~= nil and (Plr.Character) then
+            getgenv().Settings.Part = tostring(GetNearestPartToCursorOnCharacter(Plr.Character))
+        end
+    end
+end)
