@@ -16,29 +16,6 @@ local DaHoodSettings = {
     Prediction = 0.11,
     AimLockKeybind = Enum.KeyCode.E,
     Resolver = true,
-}
-getgenv().DaHoodSettings = DaHoodSettings
-
-local GunSettings = {
-    ["Double-Barrel SG"] = { --// dh
-        ["FOV"] = 16
-    },
-    ["Double Barrel SG"] = { --// dhm
-        ["FOV"] = 0
-    },
-    ["DoubleBarrel"] = { --// hood customs
-    ["FOV"] = 0
-    },
-    ["Revolver"] = {
-        ["FOV"] = 14
-    },
-    ["SMG"] = {
-        ["FOV"] = 15
-    },
-    ["Shotgun"] = {
-        ["FOV"] = 16
-    }
-}
 
 function Aiming.Check()
     if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
