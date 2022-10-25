@@ -178,7 +178,7 @@ end
 
 game.RunService.Heartbeat:Connect(function()
     if getgenv().Settings.Enabled == true then
-        local Main = CFrame.new(CC.CFrame.p,Plr.Character[getgenv().Settings.Part].Position + Plr.Character[getgenv().Settings.Part].Velocity / getgenv().Settings.Prediction)
+        local Main = CFrame.new(CC.CFrame.p,Plr.Character[getgenv().Settings.Part].Position + Plr.Character[getgenv().Settings.Part].Velocity / getgenv().Settings.Pred)
         CC.CFrame = CC.CFrame:Lerp(Main, getgenv().Settings.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut,Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
     end
 end)
