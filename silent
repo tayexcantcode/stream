@@ -143,25 +143,31 @@ Mouse.KeyDown:Connect(function(Key)
     end
 end)
 
-function GetClosest()
-    local closestPlayer
-    local shortestDistance = math.huge
-    for i, v in pairs(game.Players:GetPlayers()) do
-        pcall(function()
 
-            if v ~= game.Players.LocalPlayer and v.Character and
-                v.Character:FindFirstChild("Humanoid") then
-                local pos = CC:WorldToViewportPoint(v.Character.PrimaryPart.Position)
-                local magnitude =
-                (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).magnitude
-                if (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).magnitude < shortestDistance then
-                    closestPlayer = v
-                    shortestDistance = magnitude
+
+
+function GetClosest()
+    LPH_JIT_MAX(function() -- limits the level of obfuscation to make loops faster
+        local closestPlayer
+        local shortestDistance = math.huge
+        for i, v in pairs(game.Players:GetPlayers()) do
+            pcall(function()
+    
+                if v ~= game.Players.LocalPlayer and v.Character and
+                    v.Character:FindFirstChild("Humanoid") then
+                    local pos = CC:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+                    local magnitude =
+                    (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).magnitude
+                    if (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).magnitude < shortestDistance then
+                        closestPlayer = v
+                        shortestDistance = magnitude
+                    end
                 end
-            end
-        end)
-    end
-    return closestPlayer
+            end)
+    
+        end
+        return closestPlayer
+    end)() -- end of lph_jit_max macro - also calls it important you add the () at the end to call it
 end
 
 local function IsOnScreen(Object)
@@ -208,17 +214,23 @@ function GetNearestPartToCursorOnCharacter(character)
     return BodyPart
 end
 
-game.RunService.Heartbeat:Connect(function()
-    if getgenv().Settings.Enabled == true then
-        local Main = CFrame.new(CC.CFrame.p,Plr.Character[getgenv().Settings.Part].Position + Plr.Character[getgenv().Settings.Part].Velocity / getgenv().Settings.Pred)
-        CC.CFrame = CC.CFrame:Lerp(Main, getgenv().Settings.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut,Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
-    end
-end)
-
-task.spawn(function()
-    while task.wait() do
-        if getgenv().Settings.Enabled and Plr ~= nil and (Plr.Character) then
-            getgenv().Settings.Part = tostring(GetNearestPartToCursorOnCharacter(Plr.Character))
+LPH_JIT_MAX(function() -- limits the level of obfuscation to make loops faster
+    game.RunService.Heartbeat:Connect(function()
+        if getgenv().Settings.Enabled == true and Plr ~= nil then
+            local Main = CFrame.new(CC.CFrame.p,Plr.Character[getgenv().Settings.Part].Position + Plr.Character[getgenv().Settings.Part].Velocity / getgenv().Settings.Pred)
+            CC.CFrame = CC.CFrame:Lerp(Main, getgenv().Settings.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut,Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
         end
-    end
+    end)
+    
+end)() -- end of lph_jit_max macro - also calls it important you add the () at the end to call it
+
+
+LPH_JIT_MAX(function() -- limits the level of obfuscation to make loops faster
+    task.spawn(function()
+        while task.wait() do
+            if getgenv().Settings.Enabled and Plr ~= nil and (Plr.Character) then
+                getgenv().Settings.Part = tostring(GetNearestPartToCursorOnCharacter(Plr.Character))
+            end
+        end
+    end)
 end)
