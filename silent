@@ -5,7 +5,8 @@ end
 
 
 getgenv().DaHoodSettings = {
-    SilentAim = false,
+    SilentAim = true,
+    HotKey = "B",
     AimLock = false,
     AimLockKeybind = "F",
     Prediction = 0.11,
@@ -13,8 +14,8 @@ getgenv().DaHoodSettings = {
 }
 
 getgenv().Settings = {
-    Enabled = false,
     Key = "C",
+    Enabled = true,
     Pred = 5,
     Part = "HumanoidRootPart",
     Smoothness = 0.012
@@ -35,7 +36,7 @@ local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
 
 Mouse.KeyDown:Connect(function(key)
-        if key == string.lower(getgenv().HotKey) then
+    if (key == getgenv().DaHoodSettings.HotKey) then
             if getgenv().Aiming.Enabled == true then
                 getgenv().Aiming.Enabled = false
             else
