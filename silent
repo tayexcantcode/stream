@@ -133,8 +133,8 @@ local Plr
 
 
 Mouse.KeyDown:Connect(function(Key)
-    local Keybind = getgenv().Settings.Key:lower()
-    if (Key == Keybind) then
+    local Key = getgenv().Settings.Key:lower()
+    if (Key == Key) then
         if getgenv().Settings.Enabled == true then
             IsTargetting = not IsTargetting
             if IsTargetting then
