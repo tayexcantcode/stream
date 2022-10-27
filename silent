@@ -1,3 +1,5 @@
+-- FIX THE CHARACTER SHIT
+
 if not LPH_OBFUSCATED then
     LPH_JIT_MAX = function(...) return(...) end;
     LPH_NO_VIRTUALIZE = function(...) return(...) end;
@@ -11,14 +13,6 @@ getgenv().DaHoodSettings = {
     AimLockKeybind = "F",
     Prediction = 0.11,
     Resolver = false,
-}
-
-getgenv().Settings = {
-     Key = "C",
-    Enabled = false,
-    Pred = 5,
-    Part = "HumanoidRootPart",
-    Smoothness = 0.012
 }
 
 
@@ -37,7 +31,7 @@ local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
 
 Mouse.KeyDown:Connect(function(key)
-        if key == string.lower(getgenv().HotKey) then
+    if (key == getgenv().DaHoodSettings.HotKey) then
             if getgenv().Aiming.Enabled == true then
                 getgenv().Aiming.Enabled = false
             else
@@ -214,12 +208,12 @@ function GetNearestPartToCursorOnCharacter(character)
     return BodyPart
 end
 
-    game.RunService.Heartbeat:Connect(function()
-        if getgenv().Settings.Enabled == true and Plr ~= nil then
-            local Main = CFrame.new(CC.CFrame.p,Plr.Character[getgenv().Settings.Part].Position + Plr.Character[getgenv().Settings.Part].Velocity / getgenv().Settings.Pred)
-            CC.CFrame = CC.CFrame:Lerp(Main, getgenv().Settings.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut,Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
-        end
-    end)
+game.RunService.Heartbeat:Connect(function()
+    if getgenv().Settings.Enabled == true then
+        local Main = CFrame.new(CC.CFrame.p,Plr.Character[getgenv().Settings.Part].Position + Plr.Character[getgenv().Settings.Part].Velocity / getgenv().Settings.Pred)
+        CC.CFrame = CC.CFrame:Lerp(Main, getgenv().Settings.Smoothness, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut,Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+    end
+end)
 
 task.spawn(function()
     while task.wait() do
