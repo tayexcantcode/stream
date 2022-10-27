@@ -121,8 +121,8 @@ end)
  end)() -- end of lph_jit_max macro - also calls it important you add the () at the end to call it
 
 getgenv().Settings = {
-     Key = "C",
-    Enabled = true,
+     Key = "c",
+    Enabled = false,
     Pred = 5,
     Part = "HumanoidRootPart",
     Smoothness = 0.012
