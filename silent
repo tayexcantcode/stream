@@ -6,10 +6,9 @@ end
 
 getgenv().DaHoodSettings = {
     SilentAim = false,
-    HotKey = "B"
     AimLock = false,
-    Prediction = 0.11,
     AimLockKeybind = "F",
+    Prediction = 0.11,
     Resolver = false,
 }
 
