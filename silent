@@ -13,13 +13,6 @@ getgenv().DaHoodSettings = {
     Resolver = false,
 }
 
-getgenv().Settings = {
-    Key = "C",
-    Enabled = true,
-    Pred = 5,
-    Part = "HumanoidRootPart",
-    Smoothness = 0.012
-}
 
 local Aiming = loadstring(game:HttpGet("https://pastebin.com/raw/3A9wdSkL"))()
 
@@ -133,8 +126,8 @@ local Plr
 
 
 Mouse.KeyDown:Connect(function(Key)
-    local Key = getgenv().Settings.Key:lower()
-    if (Key == Key) then
+    local Keybind = getgenv().Settings.Key:lower()
+    if (Key == Keybind) then
         if getgenv().Settings.Enabled == true then
             IsTargetting = not IsTargetting
             if IsTargetting then
