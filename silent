@@ -120,6 +120,14 @@ end)
     end)
  end)() -- end of lph_jit_max macro - also calls it important you add the () at the end to call it
 
+getgenv().Settings = {
+     Key = "C",
+    Enabled = true,
+    Pred = 5,
+    Part = "HumanoidRootPart",
+    Smoothness = 0.012
+}
+
 local CC = game.Workspace.CurrentCamera
 local Mouse = game.Players.LocalPlayer:GetMouse()
 local Plr
