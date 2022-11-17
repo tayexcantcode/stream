@@ -136,7 +136,7 @@ for __, v in pairs(game.CoreGui.RobloxGui.PerformanceStats:GetChildren()) do
 end
 
 Memory:GetPropertyChangedSignal("Text"):Connect(function()
-    local Random = math.random(MemorySettings.MemoryRange1,MemorySettings.MemoryRange2)
+    local Random = math.random(MemorySettings.MemoryRange1.MemorySettings.MemoryRange2)
     Random = Random * 1.23 
     Memory.Text = "".. Random .." MB"
 end)
