@@ -14,11 +14,6 @@ getgenv().DaHoodSettings = {
     Resolver = false,
 }
 
-getgenv().MemorySettings = {
-    range1 = 640,
-    range2 = 830,
-}
-
 -- // silent aim //
 
 local Aiming = loadstring(game:HttpGet("https://pastebin.com/raw/3A9wdSkL"))()
@@ -136,7 +131,7 @@ for __, v in pairs(game.CoreGui.RobloxGui.PerformanceStats:GetChildren()) do
 end
 
 Memory:GetPropertyChangedSignal("Text"):Connect(function()
-    local Random = math.random(MemorySettings.MemoryRange1.MemorySettings.MemoryRange2)
+    local Random = math.random(Settings.MemoryRange1.Settings.MemoryRange2)
     Random = Random * 1.23 
     Memory.Text = "".. Random .." MB"
 end)
