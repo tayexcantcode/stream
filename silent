@@ -32,29 +32,6 @@ local CurrentCamera = ws.CurrentCamera
 
 getgenv().Varity = Varity
 
-
-getgenv().CustomFOV = {
-    DoubleBarrel = {
-        FOV = 19
-    },
-    Revolver = {
-        FOV = 27
-    },
-    SMG = {
-        FOV = 24
-    },
-    Shotgun = {
-        FOV = 18
-    },
-    TacticalShotgun = {
-        FOV = 17
-    },
-    AK47 = {
-        FOV = 10
-    },
-}
-
-
 Mouse.KeyDown:Connect(function(key)
     if (key == getgenv().Varity.HotKey) then
             if getgenv().xeno.Enabled == true then
