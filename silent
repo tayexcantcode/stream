@@ -86,9 +86,9 @@ end
 LPH_JIT_MAX(function() -- limits the level of obfuscation to make loops faster
     game:GetService("RunService").RenderStepped:Connect(function()
         if Script.Functions.getEquippedWeaponName(game.Players.LocalPlayer) ~= nil then
-            local CustomFOV = CustomFOV[Script.Functions.getEquippedWeaponName(ws.Players[LocalPlayer.Name])]
-            if CustomFOV ~= nil then
-                xeno.FOV = CustomFOV.FOV
+            local WeaponSettings = GunSettings[Script.Functions.getEquippedWeaponName(ws.Players[LocalPlayer.Name])]
+            if WeaponSettings ~= nil then
+                xeno.FOV = WeaponSettings.FOV
             else
                 xeno.FOV = 10
             end
