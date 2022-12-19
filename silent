@@ -16,7 +16,7 @@ getgenv().Varity = {
 
 -- // silent aim //
 
-local xeno = loadstring(game:HttpGet("https://pastebin.com/raw/Tr7mMwVL"))()
+local xeno = loadstring(game:HttpGet("https://pastebin.com/raw/GGGFqVyE"))()
 
 
 xeno.TeamCheck(false)
@@ -51,7 +51,7 @@ getgenv().CustomFOV = {
     },
     AK47 = {
         FOV = 10
-    },
+    }
 }
 
 
