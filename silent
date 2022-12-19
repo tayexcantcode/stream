@@ -1,25 +1,25 @@
-
+-- varity source @ xeno#0666
 if not LPH_OBFUSCATED then
     LPH_JIT_MAX = function(...) return(...) end;
     LPH_NO_VIRTUALIZE = function(...) return(...) end;
 end
 
 
-getgenv().DaHoodSettings = {
+getgenv().Varity = {
     SilentAim = false,
     HotKey = "B",
     AimLock = false,
     AimLockKeybind = "F",
-    Prediction = 0.11,
+    Prediction = 0.125,
     Resolver = false,
 }
 
 -- // silent aim //
 
-local Aiming = loadstring(game:HttpGet("https://pastebin.com/raw/3A9wdSkL"))()
+local xeno = loadstring(game:HttpGet("https://pastebin.com/raw/Tr7mMwVL"))()
 
 
-Aiming.TeamCheck(false)
+xeno.TeamCheck(false)
 
 local ws = game:GetService("Workspace") -- // just define once to cache it since luaGuard encryptes workspace. This should make it faster
 local Players = game:GetService("Players")
@@ -30,21 +30,46 @@ local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = ws.CurrentCamera
 
+getgenv().Varity = Varity
+
+
+getgenv().CustomFOV = {
+    DoubleBarrel = {
+        FOV = 19
+    },
+    Revolver = {
+        FOV = 27
+    },
+    SMG = {
+        FOV = 24
+    },
+    Shotgun = {
+        FOV = 18
+    },
+    TacticalShotgun = {
+        FOV = 17
+    },
+    AK47 = {
+        FOV = 10
+    },
+}
+
+
 Mouse.KeyDown:Connect(function(key)
-    if (key == getgenv().DaHoodSettings.HotKey) then
-            if getgenv().Aiming.Enabled == true then
-                getgenv().Aiming.Enabled = false
+    if (key == getgenv().Varity.HotKey) then
+            if getgenv().xeno.Enabled == true then
+                getgenv().xeno.Enabled = false
             else
-                getgenv().Aiming.Enabled = true
+                getgenv().xeno.Enabled = true
             end
         end
     end)
 
-function Aiming.Check()
-    if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
+function xeno.Check()
+    if not (xeno.Enabled == true and xeno.Selected ~= LocalPlayer and xeno.SelectedPart ~= nil) then
         return false
     end
-    local Character = Aiming.Character(Aiming.Selected)
+    local Character = xeno.Character(xeno.Selected)
     local KOd = Character:WaitForChild("BodyEffects")["K.O"].Value
     local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
     if (KOd or Grabbed) then
@@ -56,9 +81,9 @@ end
 LPH_JIT_MAX(function() -- limits the level of obfuscation to make loops faster
     task.spawn(function()
         while task.wait() do
-            if DaHoodSettings.Resolver and Aiming.Selected ~= nil and (Aiming.Selected.Character)  then
-                local oldVel = game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity
-                game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity = Vector3.new(oldVel.X, -0, oldVel.Z)
+            if Varity.Resolver and xeno.Selected ~= nil and (xeno.Selected.Character)  then
+                local oldVel = game.Players[xeno.Selected.Name].Character.HumanoidRootPart.Velocity
+                game.Players[xeno.Selected.Name].Character.HumanoidRootPart.Velocity = Vector3.new(oldVel.X, -0, oldVel.Z)
             end 
         end
     end)
@@ -84,11 +109,11 @@ end
 LPH_JIT_MAX(function() -- limits the level of obfuscation to make loops faster
     game:GetService("RunService").RenderStepped:Connect(function()
         if Script.Functions.getEquippedWeaponName(game.Players.LocalPlayer) ~= nil then
-            local WeaponSettings = GunSettings[Script.Functions.getEquippedWeaponName(ws.Players[LocalPlayer.Name])]
-            if WeaponSettings ~= nil then
-                Aiming.FOV = WeaponSettings.FOV
+            local CustomFOV = GunSettings[Script.Functions.getEquippedWeaponName(ws.Players[LocalPlayer.Name])]
+            if CustomFOV ~= nil then
+                xeno.FOV = CustomFOV.FOV
             else
-                Aiming.FOV = 10
+                xeno.FOV = 10
             end
         end    
     end)
@@ -98,10 +123,10 @@ end)() -- end of lph_jit_max macro - also calls it important you add the () at t
 LPH_NO_VIRTUALIZE(function() 
     local index
 index = hookmetamethod(game, "__index", function(t, k)
-    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
-        local SelectedPart = Aiming.SelectedPart
-        if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
-            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and xeno.Check()) then
+        local SelectedPart = xeno.SelectedPart
+        if (Varity.SilentAim and (k == "Hit" or k == "Target")) then
+            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * Varity.Prediction)
             return (k == "Hit" and Hit or SelectedPart)
         end
     end
@@ -114,28 +139,42 @@ end)
 
  LPH_JIT_MAX(function() -- limits the level of obfuscation to make loops faster
     RunService:BindToRenderStep("AimLock", 0, function()
-        if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(Enum.KeyCode[DaHoodSettings.AimLockKeybind])) then
-            local SelectedPart = Aiming.SelectedPart
-            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * getgenv().DaHoodSettings.Prediction)
+        if (Varity.AimLock and xeno.Check() and UserInputService:IsKeyDown(Enum.KeyCode[Varity.AimLockKeybind])) then
+            local SelectedPart = xeno.SelectedPart
+            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * getgenv().Varity.Prediction)
             CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
         end
     end)
  end)() -- end of lph_jit_max macro - also calls it important you add the () at the end to call it
 
- -- // memory spoofer //
+ -- // macro //
 
-for __, v in pairs(game.CoreGui.RobloxGui.PerformanceStats:GetChildren()) do
-    if v.Name == "PS_Button" and v.StatsMiniTextPanelClass.TitleLabel.Text == "Mem" then
-        Memory = v.StatsMiniTextPanelClass.ValueLabel
+ getgenv().MacroKeybind = "q"
+
+local Player = game:GetService("Players").LocalPlayer
+local Mouse = Player:GetMouse()
+local SpeedGlitch = false
+Mouse.KeyDown:Connect(
+    function(Key)
+        if Key == getgenv().MacroKeybind then
+            SpeedGlitch = not SpeedGlitch
+            if SpeedGlitch == true then
+                repeat
+                    game:GetService("RunService").Heartbeat:wait()
+                    keypress(0x49)
+                    game:GetService("RunService").Heartbeat:wait()
+                    keypress(0x4F)
+                    game:GetService("RunService").Heartbeat:wait()
+                    keyrelease(0x49)
+                    game:GetService("RunService").Heartbeat:wait()
+                    keyrelease(0x4F)
+                    game:GetService("RunService").Heartbeat:wait()
+                until SpeedGlitch == false
+            end
+        end
     end
-end
-
-Memory:GetPropertyChangedSignal("Text"):Connect(function()
-    local Random = math.random(Settings.MemoryRange1.Settings.MemoryRange2)
-    Random = Random * 1.23 
-    Memory.Text = "".. Random .." MB"
-end)
-
+)
+ 
 -- // tracer //
 
 local CC = ws.CurrentCamera
